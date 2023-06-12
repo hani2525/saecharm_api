@@ -8,6 +8,14 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+SET @MYSQLDUMP_TEMP_LOG_BIN = @@SESSION.SQL_LOG_BIN;
+SET @@SESSION.SQL_LOG_BIN= 0;
+
+--
+-- GTID state at the beginning of the backup
+--
+
+SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '';
 
 --
 -- Table structure for table `admins`
@@ -19,7 +27,7 @@ CREATE TABLE `admins` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `gender` varchar(100) NOT NULL,
-  `position` varchar(1000) DEFAULT NULL,
+  `position` varchar(1000) NOT NULL,
   `account_name` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
@@ -45,7 +53,7 @@ CREATE TABLE `attendance_table` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  KEY `newbie_attendace_table_newbie_id_fkey` (`newbie_id`),
+  UNIQUE KEY `newbie_id` (`newbie_id`),
   CONSTRAINT `newbie_attendace_table_newbie_id_fkey` FOREIGN KEY (`newbie_id`) REFERENCES `newbies` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -92,9 +100,9 @@ CREATE TABLE `newbies` (
   `guide` varchar(200) DEFAULT NULL,
   `job` varchar(200) DEFAULT NULL,
   `description` varchar(1000) DEFAULT NULL,
+  `gender` varchar(100) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `gender` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `admins_newbies_admin_id_fkey` (`admin_id`),
   KEY `teams_newbies_team_id_fkey` (`team_id`),
@@ -127,9 +135,9 @@ CREATE TABLE `team_members` (
   `name` varchar(100) NOT NULL,
   `gender` varchar(100) NOT NULL,
   `birth_year` int NOT NULL,
+  `position` int DEFAULT '3',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `position` int DEFAULT '3',
   PRIMARY KEY (`id`),
   KEY `team_team_members_team_id_fkey` (`team_id`),
   CONSTRAINT `team_team_members_team_id_fkey` FOREIGN KEY (`team_id`) REFERENCES `teams` (`id`)
@@ -145,14 +153,11 @@ CREATE TABLE `team_members` (
 CREATE TABLE `teams` (
   `id` int NOT NULL AUTO_INCREMENT,
   `team_name` varchar(100) DEFAULT NULL,
-  `village_number` int DEFAULT NULL,
-  `elder` varchar(100) NOT NULL,
-  `leader` varchar(100) DEFAULT NULL,
-  `vice_leader` varchar(100) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `village_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `team_number` (`team_name`)
+  UNIQUE KEY `team_name` (`team_name`),
+  UNIQUE KEY `village_id` (`village_id`),
+  CONSTRAINT `village_team_village_id_fkey` FOREIGN KEY (`village_id`) REFERENCES `villages` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -171,8 +176,9 @@ CREATE TABLE `villages` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping routines for database 'saecharm'
+-- Dumping routines for database 'saecharm-rds-1'
 --
+SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -192,15 +198,10 @@ CREATE TABLE `villages` (
 LOCK TABLES `schema_migrations` WRITE;
 INSERT INTO `schema_migrations` (version) VALUES
   ('1'),
-  ('10'),
-  ('11'),
   ('2'),
-  ('20230523055004'),
   ('3'),
   ('4'),
   ('5'),
   ('6'),
-  ('7'),
-  ('8'),
-  ('9');
+  ('7');
 UNLOCK TABLES;

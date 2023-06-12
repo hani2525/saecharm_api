@@ -1,5 +1,15 @@
 const { appDataSource } = require("./index");
 
+const createAdmin = async (account, name, hashedPassword, gender, position) => {
+  return appDataSource.query(
+    `
+    INSERT INTO admins( name, gender, position, account_name, password)
+    VALUES(?,?,?,?,?)
+  `,
+    [name, gender, position, account, hashedPassword]
+  );
+};
+
 const getAdminByAccount = async (account) => {
   const [admin] = await appDataSource.query(
     `
@@ -19,4 +29,5 @@ const getAdminByAccount = async (account) => {
 
 module.exports = {
   getAdminByAccount,
+  createAdmin,
 };

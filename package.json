@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js",
-    "distribute": "npm i && prisma generate && pm2 start server.js --name <project-back> -i max"
+    "distribute": "npm i && dbmate up && pm2 start server.js --name <saecharm-api> -i max"
   },
   "keywords": [],
   "author": "",

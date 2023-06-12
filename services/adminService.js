@@ -5,6 +5,27 @@ const errUtils = require("../utils/errUtils");
 
 const adminDao = require("../models/adminDao");
 
+const signUp = async (body) => {
+  const { account, name, password, gender, position } = body;
+  const admin = await adminDao.getAdminByAccount(account);
+
+  if (admin) {
+    const err = new Error("DUPLICATED_ACCOUNT");
+    err.statusCode = 401;
+    throw err;
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const createUser = await adminDao.createAdmin(
+    account,
+    name,
+    hashedPassword,
+    gender,
+    position
+  );
+  return createUser;
+};
+
 const signIn = async (account, password) => {
   const admin = await adminDao.getAdminByAccount(account);
 
@@ -35,4 +56,5 @@ const signIn = async (account, password) => {
 
 module.exports = {
   signIn,
+  signUp,
 };

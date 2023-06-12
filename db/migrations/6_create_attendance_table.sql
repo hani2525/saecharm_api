@@ -1,7 +1,7 @@
 -- migrate:up
 CREATE TABLE attendance_table (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    newbie_id INT,
+    newbie_id INT UNIQUE,
     orientation TIMESTAMP NULL,
     first_class TIMESTAMP NULL,
     second_class TIMESTAMP NULL,

@@ -5,7 +5,7 @@ const { appDataSource } = require("./models");
 
 const startServer = async () => {
   const app = createApp();
-  const PORT = process.env.DB_PORT;
+  const PORT = process.env.PORT || 8080;
 
   await appDataSource
     .initialize()

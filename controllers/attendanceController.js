@@ -4,12 +4,12 @@ const updateAttendance = async (req, res) => {
   try {
     const { date, newbie_id, class_name } = req.body;
     const { hasData } = await attendanceService.checkData(newbie_id);
-    if (hasData === "1") {
+    if (hasData === 1) {
       attendanceService.updateAttendance(newbie_id, class_name, date);
       return res.status(201).json({
         message: "UPDATE_ATTENDANCE_SUCCESS",
       });
-    } else if (hasData === "0") {
+    } else if (hasData === 0) {
       attendanceService.createAttendance(newbie_id, class_name, date);
       return res.status(201).json({
         message: "CREATE_ATTENDANCE_SUCCESS",

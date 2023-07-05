@@ -25,15 +25,12 @@ const createMember = (team_id, name, gender, birth_year, position) => {
 const getAllMembers = async () => {
   const members = await appDataSource.query(
     `
-      SELECT 
-      id,
-      team_id,
-      name,
-      gender,
-      birth_year,
-      position
-      FROM team_members
-      ORDER BY position;
+    select m.team_id, t.team_name, m.name, m.gender, m.birth_year, m.position, v.id as village_id, v.village_name, v.elder
+    FROM team_members m
+    JOIN teams t
+    ON m.team_id = t.id
+    JOIN villages v
+    ON t.village_id = v.id;    
     `
   );
   return members;

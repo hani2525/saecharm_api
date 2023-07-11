@@ -98,23 +98,24 @@ const getNewbieInfo = async (id) => {
       SELECT
       a.name responsibility,
       t.team_name team,
+      n.admin_id,
       n.profile_image profile,
       n.name name,
       n.gender,
-      n.first_visit firstDate,
-      n.birth_date birthDate,
-      n.is_baptized isBaptized,
+      n.first_visit,
+      n.birth_date,
+      n.is_baptized,
       n.address,
-      n.phone_number phoneNumber,
+      n.phone_number,
       n.guide,
       n.job,
       n.description,
       at.orientation,
-      at.first_class firstClass,
-      at.second_class secondClass,
-      at.third_class thirdClass,
-      at.fourth_class fourthClass,
-      at.settled_date settledDate
+      at.first_class,
+      at.second_class,
+      at.third_class,
+      at.fourth_class,
+      at.settled_date
       FROM newbies n
       JOIN admins a
       ON n.admin_id = a.id

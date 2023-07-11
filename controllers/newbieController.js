@@ -41,7 +41,6 @@ const getNewbieInfo = async (req, res) => {
 const updateNewbieInfo = async (req, res) => {
   try {
     const { body } = req;
-    console.log(body);
     body.is_baptized = body.is_baptized === "1";
     body.admin_id = Number(body.admin_id);
     body.first_visit = new Date(body.first_visit);

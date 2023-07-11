@@ -25,7 +25,7 @@ const createMember = (team_id, name, gender, birth_year, position) => {
 const getAllMembers = async () => {
   const members = await appDataSource.query(
     `
-    select m.team_id, t.team_name, m.name, m.gender, m.birth_year, m.position, v.id as village_id, v.village_name, v.elder
+    SELECT m.team_id, t.team_name, m.name, m.gender, m.birth_year, m.position, v.id as village_id, v.village_name, v.elder
     FROM team_members m
     JOIN teams t
     ON m.team_id = t.id
@@ -36,7 +36,22 @@ const getAllMembers = async () => {
   return members;
 };
 
+const getTeams = async () => {
+  const teams = await appDataSource.query(
+    `
+    SELECT t.team_name, m.team_id, m.name
+    FROM team_members m 
+    JOIN teams t
+    ON t.id = m.team_id
+    WHERE position = 1
+    AND m.team_id BETWEEN 1 AND 12
+    ORDER BY team_id;
+    `
+  );
+  return teams;
+};
 module.exports = {
   createMember,
   getAllMembers,
+  getTeams,
 };

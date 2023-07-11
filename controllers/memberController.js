@@ -10,6 +10,16 @@ const getMembersByTeam = async (req, res) => {
   }
 };
 
+const getTeams = async (req, res) => {
+  try {
+    const teams = await memberService.getTeams();
+    return res.status(200).json({ data: teams });
+  } catch (err) {
+    console.log(err);
+    return res.status(err.statusCode || 500).json({ message: err.message });
+  }
+};
+
 const createMember = async (req, res) => {
   try {
     const { team_id, name, gender, birth_year, position } = req.body;
@@ -36,4 +46,5 @@ const createMember = async (req, res) => {
 module.exports = {
   getMembersByTeam,
   createMember,
+  getTeams,
 };

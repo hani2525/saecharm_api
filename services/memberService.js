@@ -4,6 +4,8 @@ const memberDao = require("../models/memberDao");
 const createMember = (team_id, name, gender, birth_year, position) =>
   memberDao.createMember(team_id, name, gender, birth_year, position);
 
+const getTeams = async () => await memberDao.getTeams();
+
 //목장 읽어오기
 const getMembersByTeam = async () => {
   const members = await memberDao.getAllMembers();
@@ -40,4 +42,5 @@ const getMembersByTeam = async () => {
 module.exports = {
   createMember,
   getMembersByTeam,
+  getTeams,
 };

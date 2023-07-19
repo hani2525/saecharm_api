@@ -97,7 +97,6 @@ const getNewbieInfo = async (id) => {
     `
       SELECT
       a.name responsibility,
-      t.team_name team,
       n.admin_id,
       n.profile_image profile,
       n.name name,

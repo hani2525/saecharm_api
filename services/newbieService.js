@@ -2,7 +2,9 @@ const newbieDao = require("../models/newbieDao");
 const attendanceDao = require("../models/attendanceDao");
 
 //새가족 등록하기
-const createNewbie = (body) => newbieDao.createNewbie(body);
+const createNewbie = (body) => {
+  newbieDao.createNewbie(body);
+};
 
 //새가족 전체 목록 주차별로 가져오기
 const getNewbiesByClass = async () => {

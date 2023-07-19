@@ -30,7 +30,8 @@ const getAllMembers = async () => {
     JOIN teams t
     ON m.team_id = t.id
     JOIN villages v
-    ON t.village_id = v.id;    
+    ON t.village_id = v.id
+    WHERE m.id > 245
     `
   );
   return members;

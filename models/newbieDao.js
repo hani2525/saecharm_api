@@ -86,6 +86,7 @@ const getNewbiesByClass = async () => {
       ON n.admin_id = a.id
       LEFT JOIN attendance_table t
       ON n.id = t.newbie_id
+      WHERE n.id > 17
     `
   );
   return newbies;

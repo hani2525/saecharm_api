@@ -15,6 +15,7 @@ const createNewbie = async (body) => {
     job,
     description,
     gender,
+    newbie_type,
   } = body;
 
   appDataSource.query(
@@ -32,10 +33,12 @@ const createNewbie = async (body) => {
         guide,
         job,
         description,
-        gender
+        gender,
+        newbie_type
       ) VALUES (
         ?,
         null,
+        ?,
         ?,
         ?,
         ?,
@@ -62,13 +65,14 @@ const createNewbie = async (body) => {
       job,
       description,
       gender,
+      newbie_type,
     ]
   );
   return true;
 };
 
 //새가족 전체 목록 주차별로 가져오기
-const getNewbiesByClass = async () => {
+const getNewbiesByClass = async (user_type) => {
   const newbies = await appDataSource.query(
     `
       SELECT 
@@ -86,8 +90,9 @@ const getNewbiesByClass = async () => {
       ON n.admin_id = a.id
       LEFT JOIN attendance_table t
       ON n.id = t.newbie_id
-      WHERE n.id > 17
-    `
+      WHERE n.newbie_type = ?
+    `,
+    [user_type]
   );
   return newbies;
 };

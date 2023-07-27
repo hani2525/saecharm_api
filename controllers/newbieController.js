@@ -6,7 +6,11 @@ const createNewbie = async (req, res) => {
     body.is_baptized = body.is_baptized === true;
     body.first_visit = new Date(body.first_visit);
     body.birth_date = new Date(body.birth_date);
-
+    if (body.is_guest) {
+      body.newbie_type = 2;
+    } else {
+      body.newbie_type = 1;
+    }
     newbieService.createNewbie(body);
     return res.status(201).json({
       message: "CREATE_NEWBIE_SUCCESS",
@@ -19,7 +23,8 @@ const createNewbie = async (req, res) => {
 
 const getNewbiesByClass = async (req, res) => {
   try {
-    const newbiesByClass = await newbieService.getNewbiesByClass();
+    const { user_type } = req.params;
+    const newbiesByClass = await newbieService.getNewbiesByClass(user_type);
     return res.status(200).json({ data: newbiesByClass });
   } catch (err) {
     console.log(err);

@@ -7,8 +7,8 @@ const createNewbie = (body) => {
 };
 
 //새가족 전체 목록 주차별로 가져오기
-const getNewbiesByClass = async () => {
-  const newbies = await newbieDao.getNewbiesByClass();
+const getNewbiesByClass = async (user_type) => {
+  const newbies = await newbieDao.getNewbiesByClass(user_type);
   //TODO: 조금 더 효율적으로!
 
   const data = [[], [], [], [], [], [], []]; //빈 배열 만들기 메소드

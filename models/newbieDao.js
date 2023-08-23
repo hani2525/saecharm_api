@@ -186,6 +186,17 @@ const updateNewbieInfo = async (body) => {
   );
 };
 
+//새가족 정보 삭제
+const deleteNewbie = async (id) => {
+  return appDataSource.query(
+    `
+        DELETE FROM newbies
+        WHERE id = ?
+      `,
+    [id]
+  );
+};
+
 //새가족 사진 업데이트
 const uploadProfileImage = async (id, profile_image) => {
   return appDataSource.query(
@@ -203,5 +214,6 @@ module.exports = {
   createNewbie,
   updateNewbieInfo,
   getNewbieInfo,
+  deleteNewbie,
   uploadProfileImage,
 };

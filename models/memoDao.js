@@ -18,10 +18,22 @@ const deleteMemo = async (id) => {
   return appDataSource.query(
     `
         UPDATE memos
-        is_deleted = true
+        SET is_deleted = true
         WHERE id = ?
       `,
     [id]
+  );
+};
+
+//새가족 메모 수정
+const updateMemo = async (content, id) => {
+  return appDataSource.query(
+    `
+      UPDATE memos
+      SET content = ?
+      WHERE id = ?
+    `,
+    [content, id]
   );
 };
 
@@ -32,6 +44,8 @@ const getMemosById = async (target_id) => {
       SELECT
       m.content,
       m.updated_at timeStamp,
+      m.id,
+      m.writer_id,
       a.name as responsibility
       FROM memos m
       JOIN admins a
@@ -47,5 +61,6 @@ const getMemosById = async (target_id) => {
 module.exports = {
   createMemo,
   getMemosById,
+  updateMemo,
   deleteMemo,
 };

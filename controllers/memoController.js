@@ -13,9 +13,22 @@ const createMemo = async (req, res) => {
   }
 };
 
+const updateMemo = async (req, res) => {
+  try {
+    const { id, content } = req.body;
+    memoService.updateMemo(content, id);
+    return res.status(201).json({
+      message: "DELETE_MEMO_SUCCESS",
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(err.statusCode || 500).json({ message: err.message });
+  }
+};
+
 const deleteMemo = async (req, res) => {
   try {
-    const { id } = req.body;
+    const { id } = req.params;
     memoService.deleteMemo(id);
     return res.status(201).json({
       message: "DELETE_MEMO_SUCCESS",
@@ -39,6 +52,7 @@ const getMemosById = async (req, res) => {
 
 module.exports = {
   createMemo,
+  updateMemo,
   deleteMemo,
   getMemosById,
 };

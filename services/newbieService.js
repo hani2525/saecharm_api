@@ -107,6 +107,9 @@ const getNewbieInfo = async (id) => await newbieDao.getNewbieInfo(id);
 //새가족 내용 업데이트 - body로 바꾸기
 const updateNewbieInfo = (body) => newbieDao.updateNewbieInfo(body);
 
+//새가족 정보 삭제하기
+const deleteNewbie = (id) => newbieDao.deleteNewbie(id);
+
 //새가족 사진 업데이트
 const updateProfileImage = (id, profile_image) =>
   newbieDao.uploadProfileImage(id, profile_image);
@@ -120,6 +123,7 @@ module.exports = {
   getNewbiesByClass,
   getNewbieInfo,
   updateNewbieInfo,
+  deleteNewbie,
   updateProfileImage,
   updateAttendance,
 };

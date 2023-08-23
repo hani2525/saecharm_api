@@ -61,6 +61,17 @@ const updateNewbieInfo = async (req, res) => {
   }
 };
 
+const deleteNewbie = async (req, res) => {
+  try {
+    const { id } = req.params;
+    newbieService.deleteNewbie(id);
+    return res.status(200).json({ message: "DELETE_NEWBIE" });
+  } catch (err) {
+    console.log(err);
+    return res.status(err.statusCode || 500).json({ message: err.message });
+  }
+};
+
 const updateProfileImage = async (req, res) => {
   try {
     const { id, profile_image } = req.body;
@@ -78,6 +89,7 @@ module.exports = {
   createNewbie,
   getNewbieInfo,
   getNewbiesByClass,
+  deleteNewbie,
   updateNewbieInfo,
   updateProfileImage,
 };

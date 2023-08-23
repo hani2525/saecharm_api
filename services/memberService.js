@@ -9,35 +9,48 @@ const getTeams = async () => await memberDao.getTeams();
 //목장 읽어오기
 const getMembersByTeam = async () => {
   const members = await memberDao.getAllMembers();
+  const tmpResult = [];
+  const result = [];
 
-  const membersByTeam = {
-    1: {
-      1: [],
-      2: [],
-    },
-    2: {
-      3: [],
-      4: [],
-      5: [],
-    },
-    3: {
-      6: [],
-      7: [],
-      13: [],
-    },
-    4: { 8: [], 9: [], 10: [] },
-    5: { 11: [], 12: [] },
-    6: { 14: [] },
+  const findTeam = (member) => {
+    const tmpIndex = tmpResult.findIndex(
+      (el) =>
+        el.village_id === member.village_id && el.team_id === member.team_id
+    );
+
+    if (tmpIndex === -1) {
+      tmpResult.push({
+        village_id: member.village_id,
+        team_id: member.team_id,
+        team_data: [member],
+      });
+    } else {
+      tmpResult[tmpIndex].team_data.push(member);
+    }
   };
 
-  members.map((member) =>
-    membersByTeam[member.village_id][member.team_id].push(member)
-  );
+  const findVillage = (team) => {
+    const resultIndex = result.findIndex(
+      (el) => el.village_id === team.village_id
+    );
 
-  return membersByTeam;
+    if (resultIndex === -1) {
+      result.push({
+        village_id: team.village_id,
+        village_data: [{ team_id: team.team_id, team_data: team.team_data }],
+      });
+    } else {
+      result[resultIndex].village_data.push({
+        team_id: team.team_id,
+        team_data: team.team_data,
+      });
+    }
+  };
+
+  members.map((member) => findTeam(member));
+  tmpResult.map((team) => findVillage(team));
+  return result;
 };
-
-//
 
 module.exports = {
   createMember,
